@@ -38,4 +38,14 @@ public class CafeTest {
         // Then
         Assert.assertEquals(0,cafe.getBeansInStock());
     }
+
+    @Test(expected = IllegalStateException.class) // saying there will be exceptions expected
+    public void latteRequiresMilk(){
+        // given
+        Cafe cafe = new Cafe();
+        cafe.restockBeans(7);
+
+        // When
+        Coffee coffee = cafe.brew(CoffeeType.Latte);
+    }
 }
