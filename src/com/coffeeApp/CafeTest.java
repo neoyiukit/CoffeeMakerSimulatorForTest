@@ -1,11 +1,13 @@
 package com.coffeeApp;
 
-import junit.framework.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
+import org.hamcrest.Matchers;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by neo.yiu on 14/08/2017.
@@ -35,9 +37,10 @@ public class CafeTest {
 
         // Then
         // 1. To test it's an espresso, 2. there is no milk and 3. we've got enough coffee
-        Assert.assertEquals("Wrong coffee type", CoffeeType.Espresso, coffee.getType()); // expected value and how you got it from getType
-        Assert.assertEquals("Wrong milk unit", NO_MILK, coffee.getMilk());
-        Assert.assertEquals("Wrong coffeeBeans unit", ESPRESSO_BEANS, coffee.getBeans());
+        assertEquals("Wrong coffee type", CoffeeType.Espresso, coffee.getType()); // expected value and how you got it from getType
+        assertEquals("Wrong milk unit", NO_MILK, coffee.getMilk());
+        assertEquals("Wrong coffeeBeans unit", ESPRESSO_BEANS, coffee.getBeans());
+        assertThat(coffee, hasProperty("beans", equalTo(ESPRESSO_BEANS))); // beans mean getter or public fields
     }
 
     @Test
@@ -50,7 +53,7 @@ public class CafeTest {
         Coffee coffee = cafe.brew(CoffeeType.Latte);
 
         // Then
-        Assert.assertEquals("Wrong coffee type", CoffeeType.Latte, coffee.getType()); // expected value and how you got it from getType
+        assertEquals("Wrong coffee type", CoffeeType.Latte, coffee.getType()); // expected value and how you got it from getType
     }
 
     @Test
@@ -62,7 +65,7 @@ public class CafeTest {
         Coffee coffee = cafe.brew(CoffeeType.Espresso);
 
         // Then
-        Assert.assertEquals("There is still bean left", NO_BEANS, cafe.getBeansInStock());
+        assertEquals("There is still bean left", NO_BEANS, cafe.getBeansInStock());
     }
 
     @Test(expected = IllegalStateException.class) // saying there will be exceptions expected
@@ -73,7 +76,7 @@ public class CafeTest {
         // When
         Coffee coffee = cafe.brew(CoffeeType.Latte);
 
-        Assert.assertEquals("Wrong coffee type", CoffeeType.Latte, coffee.getType()); // expected value and how you got it from getType
+        assertEquals("Wrong coffee type", CoffeeType.Latte, coffee.getType()); // expected value and how you got it from getType
     }
 
     private void WithBeans() {
