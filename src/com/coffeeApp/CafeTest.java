@@ -1,6 +1,10 @@
 package com.coffeeApp;
 
 import junit.framework.Assert;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -14,12 +18,17 @@ public class CafeTest {
     public static final int NO_BEANS = 0;
     public static final int REQUIRED_MILK = CoffeeType.Latte.getRequiredMilk();
 
+    private Cafe cafe;
+
+    @Before
+    public void before(){
+        cafe = new Cafe();
+    }
+
     @Test
     public void canBrewEspresso(){ // to test if the cafe can brew Espresso
-
         // Given
-        Cafe cafe = cafeWithBeans();
-
+        WithBeans();
 
         // When
         Coffee coffee = cafe.brew(CoffeeType.Espresso);
@@ -34,7 +43,7 @@ public class CafeTest {
     @Test
     public void canBrewLatte(){
         // Given
-        Cafe cafe = cafeWithBeans();
+        WithBeans();
         cafe.restockMilk(REQUIRED_MILK);
 
         // When
@@ -47,7 +56,7 @@ public class CafeTest {
     @Test
     public void brewCoffeeConsumesBean(){
         // Given
-        Cafe cafe = cafeWithBeans();
+        WithBeans();
 
         // When
         Coffee coffee = cafe.brew(CoffeeType.Espresso);
@@ -59,7 +68,7 @@ public class CafeTest {
     @Test(expected = IllegalStateException.class) // saying there will be exceptions expected
     public void latteRequiresMilk(){
         // given
-        Cafe cafe = cafeWithBeans();
+        WithBeans();
 
         // When
         Coffee coffee = cafe.brew(CoffeeType.Latte);
@@ -67,9 +76,7 @@ public class CafeTest {
         Assert.assertEquals("Wrong coffee type", CoffeeType.Latte, coffee.getType()); // expected value and how you got it from getType
     }
 
-    private Cafe cafeWithBeans() {
-        Cafe cafe = new Cafe();
+    private void WithBeans() {
         cafe.restockBeans(ESPRESSO_BEANS); // beans needed to be restocked before the test
-        return cafe;
     }
 }
